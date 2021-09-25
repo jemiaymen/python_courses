@@ -134,6 +134,7 @@ print(a)
 
 #enter aymen jemi
 name = input('enter your name:')
+print(name)
 #result is >>> aymen jemi
 ```
 
@@ -229,7 +230,7 @@ def my_function(name, age):
 
 # call my_function
 
-my_functioni('Med',23)
+my_function('Med', 23)
 
 """
 result is 
@@ -239,7 +240,7 @@ result is
 
 # call inner_print function
 inner_print("My name is ",'Med')
-# result error function not found
+# result NameError: name 'inner_print' is not defined
 
 ```
 
@@ -321,6 +322,9 @@ chr(104)
 # >>> 'HELLO'
 
 # lower() Returns a string where all characters are in lower case.
+
+'Help Me'.lower()
+# >>> 'help me'
 
 ```
 
