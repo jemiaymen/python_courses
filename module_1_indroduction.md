@@ -1,4 +1,4 @@
-# Module 1 Introduction to Python and Python env (anaconda)
+# Module 1 Introduction to Python (anaconda)
 
 ## General introduction
 

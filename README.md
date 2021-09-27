@@ -2,7 +2,7 @@
 
 # Course syllabus
 
-## Module 1 Introduction to Python and Python env (anaconda)
+## Module 1 Introduction to Python (anaconda)
 
 for more details see [module 1](module_1_indroduction.md)
 
