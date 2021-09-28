@@ -134,3 +134,17 @@ chr(104)
                 Exercises
 --------------------------------------
 """
+
+# ex 4
+
+
+def next_char(char):
+
+    def inner_char(number_char):
+        print(chr(number_char + 1))
+
+    number_char = ord(char)
+    inner_char(number_char)
+
+
+next_char('1')
