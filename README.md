@@ -14,9 +14,9 @@ for more details see [module 2](module_2_data_structures.md)
 
 for more details see [module 3](module_3_fundamentals.md)
 
-## Module 4 POO in python
+## Module 4 OOP in python
 
-for more details see [module 4](module_4_poo.md)
+for more details see [module 4](module_4_oop.md)
 
 ## Module 5 Numpy
 
