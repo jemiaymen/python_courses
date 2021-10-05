@@ -60,3 +60,28 @@ finally:
 
 
 # %%
+
+import student
+score = student.calcule_moyenne([10.2,4,15.6,12])
+student.show('aymen',22,score)
+
+
+# %%
+
+from modules.m_1 import  exposan #, absolute
+# or 
+#from modules.m_1 import *
+
+print(exposan(12,2) )
+
+
+# %%
+
+from modules.m_2 import try_expo
+
+print(try_expo(12,2))
+
+
+
+
+

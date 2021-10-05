@@ -111,9 +111,79 @@ student
 
 ## Inheritance
 
+### sample
+
 ``` python
 
 class Person():
-    
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def show(self):
+        print('name is :', self.name)
+        print('age is :', self.age)
+
+
+class Student(Person):
+    def __init__(self, name, age, score):
+        Person.__init__(self, name, age)
+        self.score = score
+
+    def show(self):
+        Person.show(self)
+        print('score is :', self.score)
+
+
+student = Student('aymen', 25, 10.2)
+
+student.show()
+
+```
+
+
+### multiple
+
+``` python
+
+class Person():
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def show(self):
+        print('name is :', self.name)
+        print('age is :', self.age)
+
+
+class Matieres():
+
+    def __init__(self, title='none', cof=0.2, regime=''):
+        self.title = title
+        self.cof = cof
+        self.regime = regime
+
+    def show(self):
+        print('Matiere title :', self.title)
+        print('Matiere cof :', self.cof)
+        print('Matiere regime :', self.regime)
+
+
+class Student(Person, Matieres):
+    def __init__(self, name, age, score, title, cof, regime):
+        Person.__init__(self, name, age)
+        Matieres.__init__(self, title, cof, regime)
+
+        self.score = score
+
+    def show(self):
+        Person.show(self)
+        Matieres.show(self)
+        print('score is :', self.score)
+
+
+student = Student('aymen', 25, 10.2, 'BA', 0.5, 'mixte')
+
+student.show()
 
 ```

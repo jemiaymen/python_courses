@@ -166,6 +166,8 @@ print( pow(2,5))
 ## Python program structure
 ``` python
 #what is module and how to create module and import this module
+# see modules/m_1.py and modules/m_2.py
+
 
 ```
 

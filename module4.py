@@ -1,5 +1,5 @@
 # %%
-class ThisIsMyNewClass:
+class ThisIsMyNewClass():
 
     ''' this is a description of my new class'''
 
@@ -9,31 +9,31 @@ class ThisIsMyNewClass:
         return name
 
 
+# %%
 a = ThisIsMyNewClass()
-
-a.name
-# %%
-a.whoami('jemi')
+print(a.name)
+print(a.whoami('jemi'))
 # %%
 
 
-# class Student():
+class Student():
 
-#     def __init__(self, name='None', age=24, score=1.0):
-#         self.name = name
-#         self.age = age
-#         self.score = score
+    def __init__(self):
+        self.name = None
+        self.age = None
+        self.score = None
 
-#     def show(self):
-#         print('name is :', self.name)
-#         print('age is :', self.age)
-#         print('score is :', self.score)
-
-# if we don't use params in constructor
+    def show(self):
+        print('Name is :', self.name)
+        print('Age is :', self.age)
+        print('Score is :', self.score)
 
 
+# %%
 student = Student()
 student.show()
+
+# %%
 
 # if we use params in constructor
 
@@ -59,21 +59,33 @@ class Person():
         print('age is :', self.age)
 
 
-class Student(Person):
-    # def __init__(self, name, age, score):
-    #     Person.__init__(self, name, age)
-    #     self.score = score
+class Matieres():
 
-    def __init__(self, name, age, score):
-        super().__init__(name, age)
+    def __init__(self, title='none', cof=0.2, regime=''):
+        self.title = title
+        self.cof = cof
+        self.regime = regime
+
+    def show(self):
+        print('Matiere title :', self.title)
+        print('Matiere cof :', self.cof)
+        print('Matiere regime :', self.regime)
+
+
+class Student(Person, Matieres):
+    def __init__(self, name, age, score, title, cof, regime):
+        Person.__init__(self, name, age)
+        Matieres.__init__(self, title, cof, regime)
+
         self.score = score
 
     def show(self):
-        super().show()
+        Person.show(self)
+        Matieres.show(self)
         print('score is :', self.score)
 
 
-student = Student('aymen', 25, 10.2)
+student = Student('aymen', 25, 10.2, 'BA', 0.5, 'mixte')
 
 student.show()
 
