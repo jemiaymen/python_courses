@@ -187,3 +187,8 @@ student = Student('aymen', 25, 10.2, 'BA', 0.5, 'mixte')
 student.show()
 
 ```
+
+
+## Exercice
+
+* Create oriented object model from our courses

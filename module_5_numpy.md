@@ -2,10 +2,9 @@
 
 NumPy (Numerical Python) is an open source Python library that’s used in almost every field of science and engineering. It’s the universal standard for working with numerical data in Python, and it’s at the core of the scientific Python and PyData ecosystems
 
-## installing numpy
+## install numpy
 
-To install NumPy, we strongly recommend using a scientific Python distribution. If you’re looking for the full instructions for installing NumPy on your operating system, see Installing NumPy.
-
+To install NumPy, we strongly recommend using a scientific Python distribution.
 
 ### with pip 
 

@@ -90,3 +90,20 @@ student = Student('aymen', 25, 10.2, 'BA', 0.5, 'mixte')
 student.show()
 
 # %%
+
+class Salle():
+    def __init__(self, salle_name=''):
+        self.salle_name = salle_name
+
+    def print(self):
+        print('Salle est : ', self.salle_name)
+
+class Course():
+    pass
+
+class Day():
+    pass
+
+class Module():
+    pass
+
