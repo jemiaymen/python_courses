@@ -283,6 +283,7 @@ min	    17.000000	1.228500e+04	1.000000	0.000000	0.000000	1.000000
 max	    90.000000	1.484705e+06	16.000000	99999.0	    4356.0	    99.0
 """
 ```
+### Duplicated lines
 
 detect duplicated lines with
 
@@ -299,13 +300,14 @@ df = df.drop_duplicates()
 df.duplicated().sum()
 # 0
 ```
+### Null values
 
 detect null value with
 
-df.isnull().sum()
-
 ```python
 df.isnull().sum()
+#or df.isna().sum()
+
 """
 age                  0
 workclass         1836
@@ -335,7 +337,6 @@ print(null_data.shape)
 # 0
 ```
 
-### Removing null values
 Data Scientists and Analysts regularly face the dilemma of dropping or imputing null values, and is a decision that requires intimate knowledge of your data and its context. Overall, removing null data is only suggested if you have a small amount of missing data.
 
 drop null value with 
@@ -373,8 +374,6 @@ Imputation is a conventional feature engineering technique used to keep valuable
 
 There may be instances where dropping every row with a null value removes too big a chunk from your dataset, so instead we can impute that null with another value, usually the mean or the median of that column.
 
-Note : Imputation work just for numerical variables (continuous or discrete)
-
 We gonna use scikit-learn for imputation process
 
 First install scikit-learn with
@@ -388,7 +387,123 @@ One type of imputation algorithm is univariate, which imputes values in the i-th
 
 #### Univariate feature imputation
 
+
+The SimpleImputer class provides basic strategies for imputing missing values. Missing values can be imputed with a provided constant value, or using the statistics (mean, median or most frequent) of each column in which the missing values are located. This class also allows for different missing values encodings.
+
+``` python
+import numpy as np
+import pandas as pd
+from sklearn.impute import SimpleImputer
+
+columns = ['age', 'fnlwgt', 'education-num', 'capital-gain', 'capital-loss']
+data = df[columns]
+
+imputation = SimpleImputer(missing_values=np.nan, strategy='mean')
+clean_data = imputation.fit_transform(data)
+clean_data = pd.DataFrame(clean_data,columns=columns)
+
+print(clean_data.isnull().sum())
+
+```
+
+The SimpleImputer class also supports categorical data represented as string values or pandas categoricals when using the 'most_frequent' or 'constant' strategy
+
+
+``` python
+import numpy as np
+import pandas as pd
+from sklearn.impute import SimpleImputer
+
+columns = ['workclass',
+         'education',
+         'marital-status',
+         'occupation',
+         'relationship',
+         'race',
+         'sex',
+         'native-country',
+         'result']
+data = df[columns]
+
+print(data.isnull().sum())
+
+imputation = SimpleImputer(strategy='most_frequent')
+clean_data = imputation.fit_transform(data)
+clean_data = pd.DataFrame(clean_data,columns=columns)
+
+print(clean_data.isnull().sum())
+
+```
+
 #### Multivariate feature imputation
+
+A more sophisticated approach is to use the IterativeImputer class, which models each feature with missing values as a function of other features, and uses that estimate for imputation. It does so in an iterated round-robin fashion: at each step, a feature column is designated as output y and the other feature columns are treated as inputs X. A regressor is fit on (X, y) for known y. Then, the regressor is used to predict the missing values of y. This is done for each feature in an iterative fashion, and then is repeated for max_iter imputation rounds. The results of the final imputation round are returned.
+
+``` python
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+
+columns = ['age', 'fnlwgt', 'education-num', 'capital-gain', 'capital-loss']
+data = df[columns]
+
+print(data.isnull().sum())
+
+imputation = IterativeImputer(max_iter=10, random_state=0)
+clean_data = np.round(imputation.fit_transform(data))
+clean_data = pd.DataFrame(clean_data,columns=columns)
+
+print(clean_data.isnull().sum())
+
+```
+#### Multiple vs. Single Imputation
+In the statistics community, it is common practice to perform multiple imputations, generating, for example, m separate imputations for a single feature matrix. Each of these m imputations is then put through the subsequent analysis pipeline (e.g. feature engineering, clustering, regression, classification). The m final analysis results (e.g. held-out validation errors) allow the data scientist to obtain understanding of how analytic results may differ as a consequence of the inherent uncertainty caused by the missing values. The above practice is called multiple imputation.
 
 #### Nearest neighbors imputation
 
+The KNNImputer class provides imputation for filling in missing values using the k-Nearest Neighbors approach. By default, a euclidean distance metric that supports missing values, nan_euclidean_distances, is used to find the nearest neighbors. Each missing feature is imputed using values from n_neighbors nearest neighbors that have a value for the feature. The feature of the neighbors are averaged uniformly or weighted by distance to each neighbor. If a sample has more than one feature missing, then the neighbors for that sample can be different depending on the particular feature being imputed. When the number of available neighbors is less than n_neighbors and there are no defined distances to the training set, the training set average for that feature is used during imputation. If there is at least one neighbor with a defined distance, the weighted or unweighted average of the remaining neighbors will be used during imputation. If a feature is always missing in training, it is removed during transform. For more information on the methodology
+
+``` python
+from sklearn.impute import KNNImputer
+
+columns = ['age', 'fnlwgt', 'education-num', 'capital-gain', 'capital-loss']
+data = df[columns]
+
+print(data.isnull().sum())
+
+imputation = KNNImputer(n_neighbors=2, weights="uniform")
+clean_data = imputation.fit_transform(data)
+clean_data = pd.DataFrame(clean_data,columns=columns)
+
+print(clean_data.isnull().sum())
+
+```
+
+## Understanding your variables
+Using describe() on an entire DataFrame we can get a summary of the distribution of continuous variables
+
+``` python
+df.describe()
+```
+
+.describe() can also be used on a categorical variable to get the count of rows, unique count of categories, top category, and freq of top category
+
+``` python
+df.workclass.describe()
+```
+
+.value_counts() can tell us the frequency of all values in a column
+
+``` python
+df.relationship.value_counts()
+```
+By using the correlation method .corr() we can generate the relationship between each continuous variable
+
+``` python
+df.corr()
+```
+
+Correlation tables are a numerical representation of the bivariate relationships in the dataset.
+
+Positive numbers indicate a positive correlation — one goes up the other goes up — and negative numbers represent an inverse correlation — one goes up the other goes down. 1.0 indicates a perfect correlation.
+
+## DataFrame slicing, selecting, extracting

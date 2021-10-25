@@ -1,4 +1,8 @@
 # %%
+from sklearn.impute import KNNImputer
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.impute import SimpleImputer
 import pandas as pd
 import numpy as np
 
@@ -60,27 +64,27 @@ df.index = ['MA', 'ME']
 # %%
 df
 # %%
-df = pd.read_csv('../datasets/adult/adult.data',na_values='?')
+df = pd.read_csv('../datasets/adult/adult.data', na_values='?')
 
 # %%
 df.head(5)
 # %%
 
 columns = ['age',
-         'workclass',
-         'fnlwgt',
-         'education',
-         'education-num',
-         'marital-status',
-         'occupation',
-         'relationship',
-         'race',
-         'sex',
-         'capital-gain',
-         'capital-loss',
-         'hours-per-week',
-         'native-country',
-         'result']
+           'workclass',
+           'fnlwgt',
+           'education',
+           'education-num',
+           'marital-status',
+           'occupation',
+           'relationship',
+           'race',
+           'sex',
+           'capital-gain',
+           'capital-loss',
+           'hours-per-week',
+           'native-country',
+           'result']
 
 df = pd.read_csv('../datasets/adult/adult_custom.data',
                  header=None, na_values=' ?')
@@ -95,6 +99,9 @@ df.info()
 
 # %%
 df.duplicated().sum()
+
+# %%
+df = df.drop_duplicates()
 # %%
 
 df.isnull().sum()
@@ -107,6 +114,61 @@ null_data.shape
 df = df.dropna()
 
 # %%
-df.isna().sum()
+columns = ['age', 'fnlwgt', 'education-num', 'capital-gain', 'capital-loss']
+data = df[columns]
+data.head(10)
+# %%
+age_imputation = SimpleImputer(missing_values=np.nan, strategy='mean')
+
 
 # %%
+clean_data = age_imputation.fit_transform(data)
+# %%
+_clean = pd.DataFrame(clean_data, columns=columns)
+_clean.isnull().sum()
+
+# %%
+columns = ['workclass',
+           'education',
+           'marital-status',
+           'occupation',
+           'relationship',
+           'race',
+           'sex',
+           'native-country',
+           'result']
+data = df[columns]
+
+print(data.isnull().sum())
+
+age_imputation = SimpleImputer(strategy='most_frequent')
+clean_data = age_imputation.fit_transform(data)
+clean_data = pd.DataFrame(clean_data, columns=columns)
+
+print(clean_data.isnull().sum())
+
+# %%
+
+columns = ['age', 'fnlwgt', 'education-num', 'capital-gain', 'capital-loss']
+data = df[columns]
+
+print(data.isnull().sum())
+
+imputation = IterativeImputer(max_iter=10, random_state=0)
+clean_data = np.round(imputation.fit_transform(data))
+clean_data = pd.DataFrame(clean_data, columns=columns)
+
+print(clean_data.isnull().sum())
+# %%
+
+
+columns = ['age', 'fnlwgt', 'education-num', 'capital-gain', 'capital-loss']
+data = df[columns]
+
+print(data.isnull().sum())
+
+imputation = KNNImputer(n_neighbors=2, weights="uniform")
+clean_data = imputation.fit_transform(data)
+clean_data = pd.DataFrame(clean_data, columns=columns)
+
+print(clean_data.isnull().sum())
