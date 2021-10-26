@@ -518,4 +518,84 @@ to get column
 col = df.age
 #or
 col = df['age']
+
+type(col)
+# pandas.core.series.Series
+
+```
+In this case col is a Series
+
+To extract a column as a DataFrame, you need to pass a list of column names.
+
+``` python
+sub_df = df[['age']]
+print(type(sub_df))
+# pandas.core.frame.DataFrame
+```
+
+Or we can extract more then one column with
+
+``` python
+sub_df = df[['age','workclass','education']]
+sub_df.head()
+
+"""
+	age	   workclass	         education
+0	39.0	State-gov	        Bachelors
+1	50.0	Self-emp-not-inc	Bachelors
+2	38.0	Private	            HS-grad
+3	53.0	Private	            11th
+4	28.0	Private	            Bachelors
+"""
+
+```
+
+### By rows
+
+For rows, we have two options
+* .loc Locates by name
+* .iloc Locates by numerical index
+
+``` python
+row = df.iloc[1]
+print(row)
+"""
+age                                50
+workclass            Self-emp-not-inc
+fnlwgt                          83311
+education                   Bachelors
+education-num                      13
+marital-status     Married-civ-spouse
+occupation            Exec-managerial
+relationship                  Husband
+race                            White
+sex                              Male
+capital-gain                        0
+capital-loss                        0
+hours-per-week                     13
+native-country          United-States
+result                          <=50K
+Name: 1, dtype: object
+"""
+```
+
+to get rows from 0 to 10
+
+``` python
+rows = df.iloc[0:10]
+rows.head(10)
+```
+
+
+### Conditional selections
+
+We’ve gone over how to select columns and rows with condition
+
+For example select all Men from our dataset
+
+Note : str.strip() remove whitespaces
+
+``` python
+all_men = df[df['sex'].str.strip() == "Male"]
+all_men.tail()
 ```

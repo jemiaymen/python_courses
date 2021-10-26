@@ -5,7 +5,7 @@ from sklearn.impute import IterativeImputer
 from sklearn.impute import SimpleImputer
 import pandas as pd
 import numpy as np
-#%%
+# %%
 d = {'a': 0, 'b': 1, 'c': 3, 'd': 4}
 
 s = pd.Series(data=d, index=['a', 'b', 'c', 'd'])
@@ -172,3 +172,32 @@ clean_data = imputation.fit_transform(data)
 clean_data = pd.DataFrame(clean_data, columns=columns)
 
 print(clean_data.isnull().sum())
+
+# %%
+
+sub_df = df[['age']]
+type(sub_df)
+
+# %%
+col = df['age']
+
+type(col)
+
+# %%
+sub_df = df[['age', 'workclass', 'education']]
+sub_df.head()
+# %%
+row = df.iloc[1]
+row
+# %%
+rows = df.iloc[0:10]
+rows.head(11)
+
+# %%
+all_men = df[df['sex'].str.strip() == "Male"]
+all_men.tail()
+
+# %%
+df.iloc[0]['sex']
+# %%
+"".strip
