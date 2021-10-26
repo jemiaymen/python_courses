@@ -5,7 +5,7 @@ from sklearn.impute import IterativeImputer
 from sklearn.impute import SimpleImputer
 import pandas as pd
 import numpy as np
-
+#%%
 d = {'a': 0, 'b': 1, 'c': 3, 'd': 4}
 
 s = pd.Series(data=d, index=['a', 'b', 'c', 'd'])
@@ -23,7 +23,7 @@ print(s2)
 # %%
 s2.head(2)
 # %%
-s2.tail(2)
+s2.tail()
 # %%
 
 data = {

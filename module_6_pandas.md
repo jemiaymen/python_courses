@@ -507,3 +507,15 @@ Correlation tables are a numerical representation of the bivariate relationships
 Positive numbers indicate a positive correlation — one goes up the other goes up — and negative numbers represent an inverse correlation — one goes up the other goes down. 1.0 indicates a perfect correlation.
 
 ## DataFrame slicing, selecting, extracting
+
+It's important to note that, although many methods are the same, DataFrames and Series have different attributes, so you'll need be sure to know which type you are working with or else you will receive attribute errors.
+
+### By Column
+
+to get column 
+
+``` python
+col = df.age
+#or
+col = df['age']
+```
