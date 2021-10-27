@@ -586,6 +586,25 @@ rows = df.iloc[0:10]
 rows.head(10)
 ```
 
+to get row with str index
+
+``` python
+d = {
+    'Matier': ['SAS', 'BigData', 'BA'],
+    'Score': [10.2, 11.0, 12.5]
+}
+
+df = pd.DataFrame(d, index=['code_sas', 'code_bigdata', 'code_ba'])
+row = df.loc['code_bigdata']
+print(row)
+
+"""
+Matier    BigData
+Score          11
+Name: code_bigdata, dtype: object
+"""
+```
+
 
 ### Conditional selections
 
@@ -598,4 +617,13 @@ Note : str.strip() remove whitespaces
 ``` python
 all_men = df[df['sex'].str.strip() == "Male"]
 all_men.tail()
+```
+
+We can make some richer conditionals by using logical operators '|' for 'or' and '&' for 'and'
+
+For example select all Men with Master degree
+
+``` python
+_all = df[(df['sex'].str.strip() == "Male") & (df['education'].str.strip() == "Masters") ]
+_all.tail()
 ```

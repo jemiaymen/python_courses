@@ -200,4 +200,15 @@ all_men.tail()
 # %%
 df.iloc[0]['sex']
 # %%
-"".strip
+d = {
+    'Matier': ['SAS', 'BigData', 'BA'],
+    'Score': [10.2, 11.0, 12.5]
+}
+
+df = pd.DataFrame(d, index=['code_sas', 'code_bigdata', 'code_ba'])
+row = df.loc['code_bigdata']
+row
+# %%
+_all = df[(df['sex'].str.strip() == "Male") & (
+    df['education'].str.strip() == "Masters")]
+_all.tail()
