@@ -1,4 +1,5 @@
 # %%
+import matplotlib.pyplot as plt
 from sklearn.impute import KNNImputer
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
@@ -212,3 +213,41 @@ row
 _all = df[(df['sex'].str.strip() == "Male") & (
     df['education'].str.strip() == "Masters")]
 _all.tail()
+# %%
+men = df[(df['sex'].str.strip() == "Male") & (
+    df['education'].str.strip().isin(['Bachelors', 'Masters']))]
+men
+
+# %%
+
+
+def convert_to_binary(i):
+    if i.strip() == '<=50K':
+        return 0
+    return 1
+
+
+df['binary_result'] = df['result'].apply(convert_to_binary)
+df.head()
+
+# %%
+dummies = pd.get_dummies(df['education'])
+dummies
+
+# %%
+dummies_df = pd.get_dummies(df, columns=['native-country'], drop_first=True)
+dummies_df.head()
+
+# %%
+codes, uniques = pd.factorize(df['education'])
+print(codes)
+print(uniques)
+# %%
+plt.rcParams.update({'font.size': 20, 'figure.figsize': (10, 8)})
+
+# %%
+df['age'].plot(kind='hist', title='Age')
+# %%
+df['native-country'].plot(kind='bar', title='Native Country')
+
+# %%
