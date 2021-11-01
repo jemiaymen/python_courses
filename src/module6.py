@@ -248,6 +248,18 @@ plt.rcParams.update({'font.size': 20, 'figure.figsize': (10, 8)})
 # %%
 df['age'].plot(kind='hist', title='Age')
 # %%
-df['native-country'].plot(kind='bar', title='Native Country')
+df_toplot = pd.DataFrame({'lab': ['A', 'B', 'C'], 'val': [20, 10, 30]})
+df_toplot.plot(kind='bar', x='lab', y='val', rot=0)
+# %%
+ages = [20, 22, 29, 21, 22]
+scores = [10.3, 13.2, 11.0, 15.2, 13.0]
+names = ['Aymen', 'Jemi', 'Foulane', 'Man', 'Woman']
+df_toplot = pd.DataFrame({'age': ages, 'score': scores}, index=names)
+df_toplot.plot(kind='bar', rot=0)
+
+# %%
+df_toplot.plot(kind='box', title='INAE')
+# %%
+df.plot(kind='scatter', x='age', y='hours-per-week', title='Age By Hours Work')
 
 # %%

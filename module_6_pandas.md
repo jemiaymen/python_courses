@@ -708,7 +708,23 @@ plt.rcParams.update({'font.size': 20, 'figure.figsize': (10, 8)})
 
 # plot a simple Histogram based on a single column
 df['age'].plot(kind='hist', title='Age')
-# plot a Boxplot
 
-df['native-country'].plot(kind='bar' , title='Native Country')
+# plot a bar
+df_toplot = pd.DataFrame({'lab' : ['A','B','C'] , 'val' : [20, 10, 30]})
+df_toplot.plot(kind='bar' , x='lab' , y='val' , rot=0)
+# we can plot multiple bars
+ages = [20,22,29,21,22]
+scores = [10.3, 13.2 ,11.0, 15.2, 13.0 ]
+names = ['Aymen','Jemi' , 'Foulane' , 'Man', 'Woman']
+df_toplot = pd.DataFrame({'age' : ages,'score' : scores} , index=names)
+df_toplot.plot(kind='bar' , rot=0)
+
+# plot scatter
+df.plot(kind='scatter', x='age', y='hours-per-week' , title='Age By Hours Work')
+
+# plot box
+
+df_toplot.plot(kind='boxplot' , title='INAE')
 ```
+
+![boxplot explain](img/box-plot-explained.gif)
