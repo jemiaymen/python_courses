@@ -6,14 +6,46 @@ from sklearn.impute import SimpleImputer
 import pandas as pd
 import numpy as np
 # %%
-d = {'a': 0, 'b': 1, 'c': 3, 'd': 4}
+columns = ['age',
+           'workclass',
+           'fnlwgt',
+           'education',
+           'education-num',
+           'marital-status',
+           'occupation',
+           'relationship',
+           'race',
+           'sex',
+           'capital-gain',
+           'capital-loss',
+           'hours-per-week',
+           'native-country',
+           'result']
 
-s = pd.Series(data=d, index=['a', 'b', 'c', 'd'])
+df = pd.read_csv('../datasets/adult/adult_custom.data',
+                 header=None, na_values=' ?')
+df.columns = columns
+df = df.drop_duplicates()
+df.head(10)
+imp_columns = ['age', 
+            'fnlwgt', 
+            'education-num', 
+            'capital-gain', 
+            'capital-loss']
 
-print(s)
-# %%
-s1 = pd.Series(data=d, index=['y', 'z', 'v', 'w'])
-print(s1)
+data = df[imp_columns]
+
+print(data.isnull().sum())
+
+null_data = data[data.isna().any(axis=1)]
+
+print(null_data)
+
+imputation = SimpleImputer(strategy='mean')
+clean_data = imputation.fit_transform(data)
+clean_data = pd.DataFrame(clean_data, columns=imp_columns)
+
+print(clean_data.isnull().sum())
 
 # %%
 d1 = np.arange(6)
@@ -70,29 +102,7 @@ df = pd.read_csv('../datasets/adult/adult.data', na_values='?')
 df.head(5)
 # %%
 
-columns = ['age',
-           'workclass',
-           'fnlwgt',
-           'education',
-           'education-num',
-           'marital-status',
-           'occupation',
-           'relationship',
-           'race',
-           'sex',
-           'capital-gain',
-           'capital-loss',
-           'hours-per-week',
-           'native-country',
-           'result']
 
-df = pd.read_csv('../datasets/adult/adult_custom.data',
-                 header=None, na_values=' ?')
-
-df.head(5)
-df.columns = columns
-
-df.head(5)
 # %%
 
 df.info()
