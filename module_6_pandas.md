@@ -627,3 +627,104 @@ For example select all Men with Master degree
 _all = df[(df['sex'].str.strip() == "Male") & (df['education'].str.strip() == "Masters") ]
 _all.tail()
 ```
+
+Using the .isin() method to select all Men with Master or Bachelors degree
+
+``` python
+men = df[(df['sex'].str.strip() == "Male") & (df['education'].str.strip().isin(['Bachelors', 'Masters']) )]
+men
+```
+
+### Applying functions
+
+It is possible to iterate over a DataFrame or Series as you would with a list, but doing so — especially on large datasets — is very slow.
+
+An efficient alternative is to apply() a function to the dataset For example, we could use a function to convert result to binary if '<=50K' then 0 else 1
+
+First we create a function
+
+``` python
+def convert_to_binary(i):
+    if i.strip() == '<=50K':
+        return 0
+    return 1
+```
+Now we use our function convert_to_binary to create the new column 'binary_result'
+
+``` python
+df['binary_result'] = df['result'].apply(convert_to_binary)
+df.head()
+```
+
+Overall, using apply() will be much faster than iterating manually over rows because pandas is utilizing vectorization. 
+> Vectorization: a style of computer programming where operations are applied to whole arrays instead of individual elements —Wikipedia
+
+## Deal with Categorical variable
+Categorical variables are known to hide and mask lots of interesting information in a data set. It’s crucial to learn the methods of dealing with such variables.
+
+### Dummy Coding
+Dummy coding is a commonly used method for converting a categorical input variable into continuous variable. ‘Dummy’, as the name suggests is a duplicate variable which represents one level of a categorical variable.
+
+``` python
+dummies = pd.get_dummies(df['education'])
+dummies
+#or convert dataframe with columns and drop origin column
+
+dummies_df = pd.get_dummies(df, columns=['native-country'], drop_first=True)
+dummies_df.head()
+```
+
+### Factorize Coding
+
+Factors are used to represent categorical data. Factors can be ordered or unordered and are an important class for statistical analysis and for plotting.
+
+
+``` python
+codes , uniques = pd.factorize(df['education'])
+print(codes)
+print(uniques)
+```
+
+## Plotting
+We must install matplotlib
+
+``` bash
+pip install matplotlib
+# or
+conda install matplotlib
+```
+
+### Plotting Tip
+
+For categorical variables utilize Bar Charts and Boxplots.
+
+For continuous variables utilize Histograms, Scatterplots, Line graphs, and Boxplots.
+
+Set font and plot size to be larger
+
+``` python
+import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 20, 'figure.figsize': (10, 8)})
+
+# plot a simple Histogram based on a single column
+df['age'].plot(kind='hist', title='Age')
+
+# plot a bar
+df_toplot = pd.DataFrame({'lab' : ['A','B','C'] , 'val' : [20, 10, 30]})
+df_toplot.plot(kind='bar' , x='lab' , y='val' , rot=0)
+# we can plot multiple bars
+ages = [20,22,29,21,22]
+scores = [10.3, 13.2 ,11.0, 15.2, 13.0 ]
+names = ['Aymen','Jemi' , 'Foulane' , 'Man', 'Woman']
+df_toplot = pd.DataFrame({'age' : ages,'score' : scores} , index=names)
+df_toplot.plot(kind='bar' , rot=0)
+
+# plot scatter
+df.plot(kind='scatter', x='age', y='hours-per-week' , title='Age By Hours Work')
+
+# plot box
+
+df_toplot.plot(kind='boxplot' , title='INAE')
+```
+
+![boxplot explain](img/box-plot-explained.gif)

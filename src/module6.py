@@ -1,4 +1,5 @@
 # %%
+import matplotlib.pyplot as plt
 from sklearn.impute import KNNImputer
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
@@ -222,3 +223,53 @@ row
 _all = df[(df['sex'].str.strip() == "Male") & (
     df['education'].str.strip() == "Masters")]
 _all.tail()
+# %%
+men = df[(df['sex'].str.strip() == "Male") & (
+    df['education'].str.strip().isin(['Bachelors', 'Masters']))]
+men
+
+# %%
+
+
+def convert_to_binary(i):
+    if i.strip() == '<=50K':
+        return 0
+    return 1
+
+
+df['binary_result'] = df['result'].apply(convert_to_binary)
+df.head()
+
+# %%
+dummies = pd.get_dummies(df['education'])
+dummies
+
+# %%
+dummies_df = pd.get_dummies(df, columns=['native-country'], drop_first=True)
+dummies_df.head()
+
+# %%
+codes, uniques = pd.factorize(df['education'])
+print(codes)
+print(uniques)
+# %%
+plt.rcParams.update({'font.size': 20, 'figure.figsize': (10, 8)})
+
+# %%
+df['age'].plot(kind='hist', title='Age')
+# %%
+df_toplot = pd.DataFrame({'lab': ['A', 'B', 'C'], 'val': [20, 10, 30]})
+df_toplot.plot(kind='bar', x='lab', y='val', rot=0)
+# %%
+ages = [20, 22, 29, 21, 22]
+scores = [10.3, 13.2, 11.0, 15.2, 13.0]
+names = ['Aymen', 'Jemi', 'Foulane', 'Man', 'Woman']
+df_toplot = pd.DataFrame({'age': ages, 'score': scores}, index=names)
+df_toplot.plot(kind='bar', rot=0)
+
+# %%
+df_toplot.plot(kind='box', title='INAE')
+# %%
+df.plot(kind='scatter', x='age', y='hours-per-week', title='Age By Hours Work')
+
+# %%
