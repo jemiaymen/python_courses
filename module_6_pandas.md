@@ -724,7 +724,7 @@ df.plot(kind='scatter', x='age', y='hours-per-week' , title='Age By Hours Work')
 
 # plot box
 
-df_toplot.plot(kind='boxplot' , title='INAE')
+df_toplot.plot(kind='box' , title='INAE')
 ```
 
 ![boxplot explain](img/box-plot-explained.gif)

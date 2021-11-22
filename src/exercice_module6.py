@@ -95,3 +95,44 @@ clean_data.head(6)
 # %%
 null_data.head(6)
 # %%
+
+d = {
+    'Matier': ['SAS', 'BigData', 'BA'],
+    'Score': [10.2, 11.0, 12.5]
+}
+
+df = pd.DataFrame(d, index=['code_sas', 'code_bigdata', 'code_ba'])
+row = df.iloc[1]
+
+# %%
+df[df['Matier'] == 'BA']
+# %%
+codes, uniques = pd.factorize(df['education'])
+print(codes)
+print(uniques)
+
+# %%
+codes
+# %%
+
+# plot a simple Histogram based on a single column
+df['age'].plot(kind='hist', title='Age')
+# %%
+df_toplot = pd.DataFrame({'lab' : ['A','B','C'] , 'val' : [20, 10, 30]})
+df_toplot.plot(kind='bar' , x='lab' , y='val' , rot=0)
+# %%
+df_toplot.plot(kind='pie' , x='lab' , y='val' , rot=0)
+# %%
+ages = [20,22,29,21,22]
+scores = [10.3, 13.2 ,11.0, 15.2, 13.0 ]
+names = ['Aymen','Jemi' , 'Foulane' , 'Man', 'Woman']
+df_toplot = pd.DataFrame({'age' : ages,'score' : scores} , index=names)
+df_toplot.plot(kind='bar' , rot=0)
+
+# plot scatter
+df.plot(kind='scatter', x='age', y='hours-per-week' , title='Age By Hours Work')
+
+# plot box
+#%%
+df_toplot.plot(kind='box' , title='INAE')
+# %%

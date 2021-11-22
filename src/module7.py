@@ -1,4 +1,8 @@
 # %%
+from sklearn.decomposition import PCA, IncrementalPCA
+from sklearn.datasets import load_iris
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn import datasets, linear_model
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -106,3 +110,83 @@ plt.show()
 
 # %%
 
+diabetes_X, diabetes_y = datasets.load_diabetes(return_X_y=True)
+
+# Use only one feature
+diabetes_X = diabetes_X[:, np.newaxis, 2]
+
+# Split the data into training/testing sets
+diabetes_X_train = diabetes_X[:-20]
+diabetes_X_test = diabetes_X[-20:]
+
+# Split the targets into training/testing sets
+diabetes_y_train = diabetes_y[:-20]
+diabetes_y_test = diabetes_y[-20:]
+
+# Create linear regression object
+regr = linear_model.LinearRegression()
+
+# Train the model using the training sets
+regr.fit(diabetes_X_train, diabetes_y_train)
+
+# Make predictions using the testing set
+diabetes_y_pred = regr.predict(diabetes_X_test)
+
+# The coefficients
+print("Coefficients: \n", regr.coef_)
+# The mean squared error
+print("Mean squared error: %.2f" %
+      mean_squared_error(diabetes_y_test, diabetes_y_pred))
+# The coefficient of determination: 1 is perfect prediction
+print("Coefficient of determination: %.2f" %
+      r2_score(diabetes_y_test, diabetes_y_pred))
+
+# Plot outputs
+plt.scatter(diabetes_X_test, diabetes_y_test, color="black")
+plt.plot(diabetes_X_test, diabetes_y_pred, color="blue", linewidth=3)
+
+plt.xticks(())
+plt.yticks(())
+
+plt.show()
+
+
+# %%
+
+
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+n_components = 2
+ipca = IncrementalPCA(n_components=n_components, batch_size=10)
+X_ipca = ipca.fit_transform(X)
+
+pca = PCA(n_components=n_components)
+X_pca = pca.fit_transform(X)
+
+colors = ["navy", "turquoise", "darkorange"]
+
+for X_transformed, title in [(X_ipca, "Incremental PCA"), (X_pca, "PCA")]:
+    plt.figure(figsize=(8, 8))
+    for color, i, target_name in zip(colors, [0, 1, 2], iris.target_names):
+        plt.scatter(
+            X_transformed[y == i, 0],
+            X_transformed[y == i, 1],
+            color=color,
+            lw=2,
+            label=target_name,
+        )
+
+    if "Incremental" in title:
+        err = np.abs(np.abs(X_pca) - np.abs(X_ipca)).mean()
+        plt.title(
+            title + " of iris dataset\nMean absolute unsigned error %.6f" % err)
+    else:
+        plt.title(title + " of iris dataset")
+    plt.legend(loc="best", shadow=False, scatterpoints=1)
+    plt.axis([-4, 4, -1.5, 1.5])
+
+plt.show()
+
+# %%
